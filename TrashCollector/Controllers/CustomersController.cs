@@ -22,7 +22,16 @@ namespace TrashCollector.Controllers
         // GET: Customers/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var customerDetails = db.Customers.Where(c => c.CustomerId == id).First();
+            return View(customerDetails);
+        }
+
+        //POST: Customers/Details
+        [HttpPost]
+        public ActionResult Details(Customers customer, int id)
+        {
+            Customers customerDetails = db.Customers.Where(c => c.CustomerId == customer.CustomerId).Single();
+            return RedirectToAction("Index");
         }
 
         // GET: Customers/Create
@@ -57,12 +66,16 @@ namespace TrashCollector.Controllers
 
         // POST: Customers/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit([Bind(Include = "FirstName,LastName,Email,Address")] Customers customers)
         {
             try
             {
-                // TODO: Add update logic here
-
+                var editCustomer = db.Customers.Where(c => customers.CustomerId == customers.CustomerId).FirstOrDefault();
+                editCustomer.FirstName = customers.FirstName;
+                editCustomer.LastName = customers.LastName;
+                editCustomer.ApplicationUser = customers.ApplicationUser;
+                editCustomer.Address = customers.Address;
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
             catch
@@ -71,20 +84,13 @@ namespace TrashCollector.Controllers
             }
         }
 
-        // GET: Customers/Delete/5
         public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Customers/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
         {
             try
             {
-                // TODO: Add delete logic here
-
+                Customers deleteCustomer = db.Customers.Where(c => c.CustomerId == id).Single();
+                db.Customers.Remove(deleteCustomer);
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
             catch

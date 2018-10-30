@@ -38,7 +38,8 @@ namespace TrashCollector.Controllers
         // GET: Addresses/Create
         public ActionResult Create()
         {
-            return View();
+            Address address = new Address();
+            return View(address);
         }
 
         // POST: Addresses/Create

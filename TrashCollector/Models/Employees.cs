@@ -23,7 +23,7 @@ namespace TrashCollector.Models
         public string LastName { get; set; }
 
         [ForeignKey("Address")]
-        [Display(Name = "Route Zip Code")]
+        [Display(Name = "Customers To Collect")]
         public int AddressId { get; set; }
         public Address Address { get; set; }
     }
