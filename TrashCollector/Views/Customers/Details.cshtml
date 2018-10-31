@@ -1,0 +1,90 @@
+﻿@model TrashCollector.Models.Customers
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Customers</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ApplicationUserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ApplicationUserId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AddressId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AddressId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DatePickUpsStart)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DatePickUpsStart)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DatePickUpsEnd)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DatePickUpsEnd)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.WeekDay)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WeekDay)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ExtraPickUp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ExtraPickUp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AccountBalance)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AccountBalance)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.CustomerId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

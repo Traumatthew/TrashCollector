@@ -22,9 +22,13 @@ namespace TrashCollector.Models
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
-        [ForeignKey("Address")]
-        [Display(Name = "Customers To Collect")]
-        public int AddressId { get; set; }
-        public Address Address { get; set; }
+        public string ZipCode { get; set; }
+
+        //[ForeignKey("Address")]
+        //[Display(Name = "Customers To Collect")]
+        //public int AddressId { get; set; }
+        //public Address Address { get; set; }
+
+        public IEnumerable<Customers> Customers { get; set; }
     }
 }

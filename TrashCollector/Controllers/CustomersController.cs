@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using TrashCollector.Models;
@@ -14,89 +17,176 @@ namespace TrashCollector.Controllers
         // GET: Customers
         public ActionResult Index()
         {
-            List<Customers> customers = new List<Customers>();
-            customers = db.Customers.ToList();
-            return View(customers);
+            //List<Customers> customers = new List<Customers>();
+            //customers = db.Customers.ToList();
+            //return View(customers);
+            string currentUserId = User.Identity.GetUserId();
+            var customer = db.Customers.Where(c => c.ApplicationUserId == currentUserId).First();
+
+            return View(customer);
+
+
         }
+
+        //=============================================================================================================================
 
         // GET: Customers/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(int? id)
         {
-            var customerDetails = db.Customers.Where(c => c.CustomerId == id).First();
-            return View(customerDetails);
+            //var customerDetails = db.Customers.Where(c => c.CustomerId == id).First();
+            //return View(customerDetails);
+
+            Customers customerDetails = null;
+            if(id == null)
+            {
+                string currentUserId = User.Identity.GetUserId();
+                customerDetails = db.Customers.Where(c => c.ApplicationUserId == currentUserId).First();
+                return View(customerDetails);
+            }
+            Customers customers = db.Customers.Find(id);
+
+            if(customers == null)
+            {
+                return HttpNotFound();
+            }
+            return View(customers);
+
         }
 
+        //=============================================================================================================================
+
         //POST: Customers/Details
-        [HttpPost]
-        public ActionResult Details(Customers customer, int id)
-        {
-            Customers customerDetails = db.Customers.Where(c => c.CustomerId == customer.CustomerId).Single();
-            return RedirectToAction("Index");
-        }
+        //[HttpPost]
+        //public ActionResult Details(Customers customer, int id)
+        //{
+        //    Customers customerDetails = db.Customers.Where(c => c.CustomerId == customer.CustomerId).Single();
+        //    return RedirectToAction("Index");
+        //}
+
+        //=============================================================================================================================
 
         // GET: Customers/Create
         public ActionResult Create()
         {
-            Customers customer = new Customers();
-            return View(customer);
+            //Customers customer = new Customers();
+            //return View(customer);
+
+            ViewBag.ApplicationUserId = new SelectList(db.Users, "CustomerId", "ApplicationRoleId");
+            return View();
+
         }
+
+        //=============================================================================================================================
 
         // POST: Customers/Create
         [HttpPost]
-        public ActionResult Create([Bind(Include = "FirstName,LastName,Address,AccountBalance")] Customers customer)
+        public ActionResult Create([Bind(Include = "CustomerId,FirstName,LastName,Address,DatePickUpsStart,DatePickUpsEnd,WeekDay,ExtraPickUp,AccountBalance")] Customers customer)
         {
-            try
+            if (ModelState.IsValid)
             {
+                // get the Id of the currently logged in ApplicationUser
+                string currentUserId = User.Identity.GetUserId();
+                customer.ApplicationUserId = currentUserId;
                 db.Customers.Add(customer);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
+
+            ViewBag.ApplicationUserId = new SelectList(db.Users, "CustomerId", "ApplicationUserId", customer.ApplicationUserId);
+            return View(customer);
+            
         }
 
+        //=============================================================================================================================
+
         // GET: Customers/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int? id)
         {
-            var editCustomer = db.Customers.Where(c => c.CustomerId == id).First();
-            return View(editCustomer);
+            //var editCustomer = db.Customers.Where(c => c.CustomerId == id).First();
+            //return View(editCustomer);
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Customers customers = db.Customers.Find(id);
+            if (customers == null)
+            {
+                return HttpNotFound();
+            }
+            //Need To Check
+            ViewBag.ApplicationUserId = new SelectList(db.Users, "Customers", "ApplicationUseerId", customers.ApplicationUserId);
+            return View(customers);
         }
+
+        //=============================================================================================================================
 
         // POST: Customers/Edit/5
         [HttpPost]
-        public ActionResult Edit([Bind(Include = "FirstName,LastName,Email,Address")] Customers customers)
+        public ActionResult Edit([Bind(Include = "FirstName,LastName,Email,Address,DatePickUpsStart,DatePickUpsEnd,WeekDay,ExtraPickUp,AccountBalance")] Customers customers)
         {
-            try
+            //var editCustomer = db.Customers.Where(c => customers.CustomerId == customers.CustomerId).FirstOrDefault();
+            //editCustomer.FirstName = customers.FirstName;
+            //editCustomer.LastName = customers.LastName;
+            //editCustomer.ApplicationUserId = customers.ApplicationUserId;
+            //editCustomer.Address = customers.Address;
+            //db.SaveChanges();
+            //return RedirectToAction("Index");
+
+            if (ModelState.IsValid)
             {
-                var editCustomer = db.Customers.Where(c => customers.CustomerId == customers.CustomerId).FirstOrDefault();
-                editCustomer.FirstName = customers.FirstName;
-                editCustomer.LastName = customers.LastName;
-                editCustomer.ApplicationUser = customers.ApplicationUser;
-                editCustomer.Address = customers.Address;
+                db.Entry(customers).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details");
             }
-            catch
-            {
-                return View();
-            }
+            ViewBag.ApplicationUserId = new SelectList(db.Users, "CustomerId", "ApplicationUserId", customers.ApplicationUserId);
+            return View(customers);
         }
 
-        public ActionResult Delete(int id)
+        //=============================================================================================================================
+
+        //GET: Customers/Delete
+        public ActionResult Delete(int? id)
         {
-            try
+            //Customers deleteCustomer = db.Customers.Where(c => c.CustomerId == id).Single();
+            //db.Customers.Remove(deleteCustomer);
+            //db.SaveChanges();
+            //return RedirectToAction("Index");
+
+            if (id == null)
             {
-                Customers deleteCustomer = db.Customers.Where(c => c.CustomerId == id).Single();
-                db.Customers.Remove(deleteCustomer);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            catch
+            Customers customers = db.Customers.Find(id);
+            if (customers == null)
             {
-                return View();
+                return HttpNotFound();
             }
+            return View(customers);
+        }
+
+        //=============================================================================================================================
+
+        //POST: Customers/Delete
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            Customers customers = db.Customers.Find(id);
+            db.Customers.Remove(customers);
+            db.SaveChanges();
+            return RedirectToAction("Details");
+        }
+
+        //=============================================================================================================================
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }

@@ -197,6 +197,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AddressesController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
+    <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PickupsController.cs" />
@@ -210,6 +211,18 @@
     <Compile Include="Migrations\201810301712123_updates.cs" />
     <Compile Include="Migrations\201810301712123_updates.Designer.cs">
       <DependentUpon>201810301712123_updates.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810301833085_removed DayOfWeek.cs" />
+    <Compile Include="Migrations\201810301833085_removed DayOfWeek.Designer.cs">
+      <DependentUpon>201810301833085_removed DayOfWeek.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810301836174_added WeekDay.cs" />
+    <Compile Include="Migrations\201810301836174_added WeekDay.Designer.cs">
+      <DependentUpon>201810301836174_added WeekDay.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810301907557_added zip.cs" />
+    <Compile Include="Migrations\201810301907557_added zip.Designer.cs">
+      <DependentUpon>201810301907557_added zip.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -291,10 +304,14 @@
     <Content Include="Views\Pickups\Details.cshtml" />
     <Content Include="Views\Pickups\Edit.cshtml" />
     <Content Include="Views\Pickups\Index.cshtml" />
+    <Content Include="Views\Customers\Details.cshtml" />
+    <Content Include="Views\Customers\Create.cshtml" />
+    <Content Include="Views\Customers\Edit.cshtml" />
+    <Content Include="Views\Customers\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Customers\" />
+    <Folder Include="Views\Employees\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -315,6 +332,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810301712123_updates.resx">
       <DependentUpon>201810301712123_updates.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810301833085_removed DayOfWeek.resx">
+      <DependentUpon>201810301833085_removed DayOfWeek.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810301836174_added WeekDay.resx">
+      <DependentUpon>201810301836174_added WeekDay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810301907557_added zip.resx">
+      <DependentUpon>201810301907557_added zip.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -89,6 +89,11 @@ namespace TrashCollector.Controllers
                         return RedirectToAction("Index", "Customers");
                     }
 
+                    else
+                    {
+                        return RedirectToAction(returnUrl);
+                    }
+
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -178,7 +183,7 @@ namespace TrashCollector.Controllers
                     {
                         return RedirectToAction("Create", "Employees");
                     }
-                    if(model.UserRole == "Customer")
+                    else if(model.UserRole == "Customer")
                     {
                         return RedirectToAction("Create", "Customers");
                     }

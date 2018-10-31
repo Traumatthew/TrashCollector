@@ -34,7 +34,7 @@ namespace TrashCollector.Models
         public DateTime? DatePickUpsEnd { get; set; }
 
         [Display(Name = "Pickup Day")]
-        public DayOfWeek? WeekDay { get; set; }
+        public string WeekDay { get; set; }
 
         [Display(Name = "Extra Pickup")]
         public DateTime? ExtraPickUp { get; set; }
