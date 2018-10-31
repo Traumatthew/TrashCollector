@@ -20,7 +20,7 @@ namespace TrashCollector.Controllers
             string currentUserId = User.Identity.GetUserId();
             var employee = db.Employees.Where(c => c.ApplicationUserId == currentUserId).First();
 
-            return View(employee);
+            return View("Details");
         }
 
         //=============================================================================================================================
@@ -41,7 +41,7 @@ namespace TrashCollector.Controllers
             {
                 return HttpNotFound();
             }
-            return View(employees);
+            return View("Details");
         }
 
         //=============================================================================================================================
