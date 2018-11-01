@@ -20,7 +20,9 @@ namespace TrashCollector.Controllers
             string currentUserId = User.Identity.GetUserId();
             var employee = db.Employees.Where(c => c.ApplicationUserId == currentUserId).First();
 
-            return View("Details");
+           // var ListOfCustomers = db.Customers.Where(x => x.Address.ZipCode == employee.ZipCode && (x.PickUpDay == DateTime || x.ExtraPickUp == DateTime).ToList());
+
+            return View();
         }
 
         //=============================================================================================================================
@@ -57,20 +59,20 @@ namespace TrashCollector.Controllers
 
         // POST: Employees/Create
         [HttpPost]
-        public ActionResult Create([Bind(Include = "EmployeeId,ApplicationRoleIdFirstName,LastName,ZipCode")] Employees employees)
+        public ActionResult Create([Bind(Include = "EmployeeId,ApplicationRoleIdFirstName,LastName,ZipCode")] Employees employee)
         {
             if (ModelState.IsValid)
             {
                 // get the Id of the currently logged in ApplicationUser
                 string currentUserId = User.Identity.GetUserId();
-                employees.ApplicationUserId = currentUserId;
-                db.Employees.Add(employees);
+                employee.ApplicationUserId = currentUserId;
+                db.Employees.Add(employee);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.ApplicationUserId = new SelectList(db.Users, "EmployeerId", "ApplicationUserId", employees.ApplicationUserId);
-            return View(employees);
+            ViewBag.ApplicationUserId = new SelectList(db.Users, "EmployeerId", "ApplicationUserId", employee.ApplicationUserId);
+            return View(employee);
         }
 
         //=============================================================================================================================
@@ -88,7 +90,7 @@ namespace TrashCollector.Controllers
                 return HttpNotFound();
             }
             //Need To Check
-            ViewBag.ApplicationUserId = new SelectList(db.Users, "EmployyeId", "ApplicationUseerId", employees.ApplicationUserId);
+            ViewBag.ApplicationUserId = new SelectList(db.Users, "Employe]eId", "ApplicationUseerId", employees.ApplicationUserId);
             return View(employees);
         }
 

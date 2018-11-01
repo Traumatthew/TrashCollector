@@ -11,6 +11,8 @@ namespace TrashCollector.Models
         [Key]
         public int AddressId { get; set; }
 
+        public int CustomerId { get; set; }
+
         [Display(Name = "Street Address")]
         public string StreetAddress { get; set; }
 

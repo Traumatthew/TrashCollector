@@ -21,7 +21,12 @@ namespace TrashCollector.Controllers
             //customers = db.Customers.ToList();
             //return View(customers);
             string currentUserId = User.Identity.GetUserId();
-            var customer = db.Customers.Where(c => c.ApplicationUserId == currentUserId).First();
+
+            //ASK ABOUT THIS
+
+            var customer = db.Customers.Where(c => c.ApplicationUserId == currentUserId).FirstOrDefault();
+            var customers = db.Customers.Include(c => c.ApplicationUser);
+
 
             return View(customer);
 
@@ -40,7 +45,7 @@ namespace TrashCollector.Controllers
             if(id == null)
             {
                 string currentUserId = User.Identity.GetUserId();
-                customerDetails = db.Customers.Where(c => c.ApplicationUserId == currentUserId).First();
+                customerDetails = db.Customers.Where(c => c.ApplicationUserId == currentUserId).FirstOrDefault();
                 return View(customerDetails);
             }
             Customers customers = db.Customers.Find(id);
@@ -72,30 +77,74 @@ namespace TrashCollector.Controllers
             //return View(customer);
 
             ViewBag.ApplicationUserId = new SelectList(db.Users, "CustomerId", "ApplicationRoleId");
-            return View();
+            Customers theCustomers = new Customers();
+            Employees theEmployees = new Employees();
+            Pickups thePickups = new Pickups();
+            Address theAddress = new Address();
+            ViewModel viewModel = new ViewModel()
+            {
+                customers = theCustomers,
+                employees = theEmployees,
+                pickups = thePickups,
+                address = theAddress
+            };
+            return View(viewModel);
 
         }
 
         //=============================================================================================================================
-
         // POST: Customers/Create
         [HttpPost]
-        public ActionResult Create([Bind(Include = "CustomerId,FirstName,LastName,Address,DatePickUpsStart,DatePickUpsEnd,WeekDay,ExtraPickUp,AccountBalance")] Customers customer)
+        public ActionResult Create(ViewModel viewModel)
         {
+            //viewModel.customers.ApplicationUser
+            //viewModel.customers.FirstName;
+            //viewModel.customers.LastName;
+            //viewModel
             if (ModelState.IsValid)
             {
+                //Pickups pickups = new Pickups();
+                //pickups.ExtraPickUp?
+                //    pickups.PickUpCompleted ?
                 // get the Id of the currently logged in ApplicationUser
                 string currentUserId = User.Identity.GetUserId();
-                customer.ApplicationUserId = currentUserId;
-                db.Customers.Add(customer);
+                viewModel.customers.ApplicationUserId = currentUserId;
+                //db.Pickups.Add(pickups);
+                db.Customers.Add(viewModel.customers);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.ApplicationUserId = new SelectList(db.Users, "CustomerId", "ApplicationUserId", customer.ApplicationUserId);
-            return View(customer);
-            
+            ViewBag.ApplicationUserId = new SelectList(db.Users, "CustomerId", "ApplicationUserId", viewModel.customers.ApplicationUserId);
+            return View(viewModel.customers);
+
         }
+        //// POST: Customers/Create
+        //[HttpPost]
+        //public ActionResult Create([Bind(Include = "CustomerId,FirstName,LastName,DatePickUpsStart,DatePickUpsEnd,PickUpDay,ExtraPickUp,PickUpCompleted")] Customers customer)
+        //{
+        //    //viewModel.customers.ApplicationUser
+        //    //viewModel.customers.FirstName;
+        //    //viewModel.customers.LastName;
+        //    //viewModel
+        //    if (ModelState.IsValid)
+        //    {
+        //        //Pickups pickups = new Pickups();
+        //        //pickups.ExtraPickUp?
+        //        //    pickups.PickUpCompleted ?
+        //        // get the Id of the currently logged in ApplicationUser
+        //        string currentUserId = User.Identity.GetUserId();
+        //        customer.ApplicationUserId = currentUserId;
+        //        //db.Pickups.Add(pickups);
+        //        db.Customers.Add(customer);
+        //        db.SaveChanges();
+        //        return RedirectToAction("Index");
+        //    }
+
+        //    ViewBag.ApplicationUserId = new SelectList(db.Users, "CustomerId", "ApplicationUserId", customer.ApplicationUserId);
+        //    return View(customer);
+            
+        //}
 
         //=============================================================================================================================
 
@@ -115,7 +164,7 @@ namespace TrashCollector.Controllers
                 return HttpNotFound();
             }
             //Need To Check
-            ViewBag.ApplicationUserId = new SelectList(db.Users, "Customers", "ApplicationUseerId", customers.ApplicationUserId);
+            ViewBag.ApplicationUserId = new SelectList(db.Users, "CustomerId", "ApplicationUserRoleId", customers.ApplicationUserId);
             return View(customers);
         }
 
@@ -123,7 +172,7 @@ namespace TrashCollector.Controllers
 
         // POST: Customers/Edit/5
         [HttpPost]
-        public ActionResult Edit([Bind(Include = "FirstName,LastName,Email,Address,DatePickUpsStart,DatePickUpsEnd,WeekDay,ExtraPickUp,AccountBalance")] Customers customers)
+        public ActionResult Edit([Bind(Include = "CustomerId,FirstName,LastName,Email,Address,DatePickUpsStart,DatePickUpsEnd,PickUpDay,ExtraPickUp,AccountBalance,ApplicationUserId,PickUpCompleted")] Customers customers)
         {
             //var editCustomer = db.Customers.Where(c => customers.CustomerId == customers.CustomerId).FirstOrDefault();
             //editCustomer.FirstName = customers.FirstName;

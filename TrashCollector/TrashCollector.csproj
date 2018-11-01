@@ -200,29 +200,16 @@
     <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\PickupsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201810301409489_Initial.cs" />
-    <Compile Include="Migrations\201810301409489_Initial.Designer.cs">
-      <DependentUpon>201810301409489_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201810311435285_fixed Zipcode.cs" />
+    <Compile Include="Migrations\201810311435285_fixed Zipcode.Designer.cs">
+      <DependentUpon>201810311435285_fixed Zipcode.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201810301712123_updates.cs" />
-    <Compile Include="Migrations\201810301712123_updates.Designer.cs">
-      <DependentUpon>201810301712123_updates.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810301833085_removed DayOfWeek.cs" />
-    <Compile Include="Migrations\201810301833085_removed DayOfWeek.Designer.cs">
-      <DependentUpon>201810301833085_removed DayOfWeek.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810301836174_added WeekDay.cs" />
-    <Compile Include="Migrations\201810301836174_added WeekDay.Designer.cs">
-      <DependentUpon>201810301836174_added WeekDay.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810301907557_added zip.cs" />
-    <Compile Include="Migrations\201810301907557_added zip.Designer.cs">
-      <DependentUpon>201810301907557_added zip.cs</DependentUpon>
+    <Compile Include="Migrations\201811011200102_updated models customer and pickups.cs" />
+    <Compile Include="Migrations\201811011200102_updated models customer and pickups.Designer.cs">
+      <DependentUpon>201811011200102_updated models customer and pickups.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -232,6 +219,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Pickups.cs" />
+    <Compile Include="Models\ViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -299,11 +287,6 @@
     <Content Include="Views\Addresses\Details.cshtml" />
     <Content Include="Views\Addresses\Edit.cshtml" />
     <Content Include="Views\Addresses\Index.cshtml" />
-    <Content Include="Views\Pickups\Create.cshtml" />
-    <Content Include="Views\Pickups\Delete.cshtml" />
-    <Content Include="Views\Pickups\Details.cshtml" />
-    <Content Include="Views\Pickups\Edit.cshtml" />
-    <Content Include="Views\Pickups\Index.cshtml" />
     <Content Include="Views\Customers\Details.cshtml" />
     <Content Include="Views\Customers\Create.cshtml" />
     <Content Include="Views\Customers\Edit.cshtml" />
@@ -331,20 +314,11 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201810301409489_Initial.resx">
-      <DependentUpon>201810301409489_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201810311435285_fixed Zipcode.resx">
+      <DependentUpon>201810311435285_fixed Zipcode.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810301712123_updates.resx">
-      <DependentUpon>201810301712123_updates.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810301833085_removed DayOfWeek.resx">
-      <DependentUpon>201810301833085_removed DayOfWeek.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810301836174_added WeekDay.resx">
-      <DependentUpon>201810301836174_added WeekDay.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810301907557_added zip.resx">
-      <DependentUpon>201810301907557_added zip.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201811011200102_updated models customer and pickups.resx">
+      <DependentUpon>201811011200102_updated models customer and pickups.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

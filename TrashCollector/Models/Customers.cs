@@ -27,17 +27,28 @@ namespace TrashCollector.Models
         public int AddressId { get; set; }
         public Address Address { get; set; }
 
-        [Display(Name = "Pickups Start")]
-        public DateTime? DatePickUpsStart { get; set; }
+        [ForeignKey("Pickups")]
+        public int PickId { get; set; }
+        public Pickups Pickups { get; set; }
 
-        [Display(Name = "Pickups End")]
-        public DateTime? DatePickUpsEnd { get; set; }
 
-        [Display(Name = "Pickup Day")]
-        public string WeekDay { get; set; }
+        //[Display(Name = "Pickups Start")]
+        //[DataType(DataType.Date)]
+        //[DisplayFormat(DataFormatString = "{0:mm-dd-yy}", ApplyFormatInEditMode = true)]
+        //public DateTime? DatePickUpsStart { get; set; }
 
-        [Display(Name = "Extra Pickup")]
-        public DateTime? ExtraPickUp { get; set; }
+        //[Display(Name = "Pickups End")]
+        //[DataType(DataType.Date)]
+        //[DisplayFormat(DataFormatString = "{0:mm-dd-yy}", ApplyFormatInEditMode = true)]
+        //public DateTime? DatePickUpsEnd { get; set; }
+
+        //[Display(Name = "Pickup Day")]
+        //public DayOfWeek PickUpDay { get; set; }
+
+        //[Display(Name = "Extra Pickup")]
+        //[DataType(DataType.Date)]
+        //[DisplayFormat(DataFormatString = "{0:mm-dd-yy}", ApplyFormatInEditMode = true)]
+        //public DateTime? ExtraPickUp { get; set; }
 
         [Display(Name = "Account Balance")]
         public decimal AccountBalance { get; set; }

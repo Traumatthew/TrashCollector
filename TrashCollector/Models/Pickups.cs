@@ -12,27 +12,33 @@ namespace TrashCollector.Models
         [Key]
         public int PickUpId { get; set; }
 
-        [ForeignKey("Customers")]
-        public int CustomerId { get; set; }
-        public Customers Customers { get; set; }
-
         [ForeignKey("Employees")]
         public int? EmployeeId { get; set; }
         public Employees Employees { get; set; }
 
-        //[Display(Name = "Start Day")]
-        //public DateTime? StartDay { get; set; }
+        //[ForeignKey("Customers")]
+        //public int CustomerId { get; set; }
+        //public Customers customer { get; set; }
 
-        //[Display(Name = "End Day")]
-        //public DateTime? EndDay { get; set; }
+        //[Display(Name = "Pickups Start")]
+        //public DateTime? DatePickUpsStart { get; set; }
 
-        [Display(Name = "Pick Up Day")]
-        public DateTime? PickUpDay { get; set; }
+        //[Display(Name = "Pickups End")]
+        //public DateTime? DatePickUpsEnd { get; set; }
 
-        [Display(Name = "Extra Pick Up Day")]
+        //[Display(Name = "Pickup Day")]
+        //public string WeekDay { get; set; }
+
+        [Display(Name = "Extra Pickup")]
         public DateTime? ExtraPickUp { get; set; }
+
 
         [Display(Name = "Pick Up Completed")]
         public bool PickUpCompleted { get; set; }
+
+        public double Charge { get; set; }
+
+        [Display(Name = "Pickup Start Date")]
+        public DateTime PickUpDate { get; set; }
     }
 }
