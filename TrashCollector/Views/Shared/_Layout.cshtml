@@ -24,7 +24,7 @@
                     @if (User.IsInRole("Customer"))
                     {
                         <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                        <li>@Html.ActionLink("Edit/Set Pickups", "Details", "Customers") </li>
+                        <li>@Html.ActionLink("Edit/Set Pickups", "Edit", "Customers") </li>
                     }
                     @if (User.IsInRole("Employee"))
                     {

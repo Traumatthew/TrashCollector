@@ -20,7 +20,7 @@ namespace TrashCollector.Controllers
             //List<Customers> customers = new List<Customers>();
             //customers = db.Customers.ToList();
             //return View(customers);
-            string currentUserId = User.Identity.GetUserId();
+            var currentUserId = User.Identity.GetUserId();
 
             //ASK ABOUT THIS
 
@@ -41,20 +41,30 @@ namespace TrashCollector.Controllers
             //var customerDetails = db.Customers.Where(c => c.CustomerId == id).First();
             //return View(customerDetails);
 
-            Customers customerDetails = null;
+            /*Customers customerDetails = null*/;
+
+            ViewModel viewModel = new ViewModel();
+
             if(id == null)
             {
-                string currentUserId = User.Identity.GetUserId();
-                customerDetails = db.Customers.Where(c => c.ApplicationUserId == currentUserId).FirstOrDefault();
-                return View(customerDetails);
-            }
-            Customers customers = db.Customers.Find(id);
 
-            if(customers == null)
+                //string currentUserId = User.Identity.GetUserId();
+                //customerDetails = db.Customers.Where(c => c.ApplicationUserId == currentUserId).FirstOrDefault();
+                //return View(customerDetails);
+
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            //Customers customers = db.Customers.Find(id);
+
+            viewModel.customers = db.Customers.Find(id);
+            viewModel.address = db.Addresses.Find(viewModel.address.AddressId);
+            viewModel.pickups = db.Pickups.Where(p => p.PickUpId == viewModel.customers.PickId).Single();
+
+            if(viewModel.customers == null)
             {
                 return HttpNotFound();
             }
-            return View(customers);
+            return View(viewModel);
 
         }
 
@@ -100,23 +110,24 @@ namespace TrashCollector.Controllers
             //viewModel.customers.ApplicationUser
             //viewModel.customers.FirstName;
             //viewModel.customers.LastName;
-            //viewModel
-            if (ModelState.IsValid)
-            {
+            viewModel.customers.ApplicationUserId = User.Identity.GetUserId();
                 //Pickups pickups = new Pickups();
                 //pickups.ExtraPickUp?
                 //    pickups.PickUpCompleted ?
-                // get the Id of the currently logged in ApplicationUser
-                string currentUserId = User.Identity.GetUserId();
-                viewModel.customers.ApplicationUserId = currentUserId;
-                //db.Pickups.Add(pickups);
-                db.Customers.Add(viewModel.customers);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
 
-            ViewBag.ApplicationUserId = new SelectList(db.Users, "CustomerId", "ApplicationUserId", viewModel.customers.ApplicationUserId);
-            return View(viewModel.customers);
+                db.Customers.Add(viewModel.customers);
+                db.Addresses.Add(viewModel.address);
+                db.Pickups.Add(viewModel.pickups);
+                // get the Id of the currently logged in ApplicationUser
+                //string currentUserId = User.Identity.GetUserId();
+                //viewModel.customers.ApplicationUserId = currentUserId;
+                ////db.Pickups.Add(pickups);
+                //db.Customers.Add(viewModel.customers);
+                db.SaveChanges();
+                return RedirectToAction("Details");
+
+            //ViewBag.ApplicationUserId = new SelectList(db.Users, "CustomerId", "ApplicationUserId", viewModel.customers.ApplicationUserId);
+            //return View(viewModel.customers);
 
         }
         //// POST: Customers/Create
@@ -149,47 +160,49 @@ namespace TrashCollector.Controllers
         //=============================================================================================================================
 
         // GET: Customers/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit()
         {
             //var editCustomer = db.Customers.Where(c => c.CustomerId == id).First();
             //return View(editCustomer);
+            ViewModel viewModel = new ViewModel();
+            //viewModel.pickups.PickUpDate = 
+            var currentUserId = User.Identity.GetUserId();
 
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Customers customers = db.Customers.Find(id);
-            if (customers == null)
-            {
-                return HttpNotFound();
-            }
+            //Customers customers = db.Customers.Find(id);
+            viewModel.customers = db.Customers.Where(c => c.ApplicationUserId == currentUserId).SingleOrDefault();
+            //viewModel.address = db.Addresses.Find(viewModel.customers.Address);
             //Need To Check
-            ViewBag.ApplicationUserId = new SelectList(db.Users, "CustomerId", "ApplicationUserRoleId", customers.ApplicationUserId);
-            return View(customers);
+            ViewBag.CustomerId = new SelectList(db.Users, "CustomerId", "ApplicationUserRoleId", viewModel.customers.CustomerId);
+            return View(viewModel);
         }
 
         //=============================================================================================================================
 
         // POST: Customers/Edit/5
         [HttpPost]
-        public ActionResult Edit([Bind(Include = "CustomerId,FirstName,LastName,Email,Address,DatePickUpsStart,DatePickUpsEnd,PickUpDay,ExtraPickUp,AccountBalance,ApplicationUserId,PickUpCompleted")] Customers customers)
+        public ActionResult Edit(ViewModel viewModel)
         {
-            //var editCustomer = db.Customers.Where(c => customers.CustomerId == customers.CustomerId).FirstOrDefault();
-            //editCustomer.FirstName = customers.FirstName;
-            //editCustomer.LastName = customers.LastName;
-            //editCustomer.ApplicationUserId = customers.ApplicationUserId;
-            //editCustomer.Address = customers.Address;
-            //db.SaveChanges();
-            //return RedirectToAction("Index");
-
             if (ModelState.IsValid)
             {
-                db.Entry(customers).State = EntityState.Modified;
+                var editCustomer = db.Customers.Find(viewModel.customers.CustomerId == viewModel.customers.CustomerId);
+                var editAddress = db.Addresses.Where(a => a.AddressId == viewModel.address.CustomerId).Single();
+                var editPickUps = db.Pickups.Where(p => p.PickUpId == viewModel.customers.PickId).Single();
+                editCustomer.FirstName = viewModel.customers.FirstName;
+                editCustomer.LastName = viewModel.customers.LastName;
+                editCustomer.Address = viewModel.customers.Address;
                 db.SaveChanges();
-                return RedirectToAction("Details");
+                return RedirectToAction("Index");
             }
-            ViewBag.ApplicationUserId = new SelectList(db.Users, "CustomerId", "ApplicationUserId", customers.ApplicationUserId);
-            return View(customers);
+                
+
+            //if (ModelState.IsValid)
+            //{
+            //    db.Entry(customers).State = EntityState.Modified;
+            //    db.SaveChanges();
+            //    return RedirectToAction("Details");
+            //}
+            ViewBag.ApplicationUserId = new SelectList(db.Users, "CustomerId", "ApplicationUserId", viewModel.customers.ApplicationUserId);
+            return View(viewModel);
         }
 
         //=============================================================================================================================
@@ -206,7 +219,9 @@ namespace TrashCollector.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             Customers customers = db.Customers.Find(id);
+
             if (customers == null)
             {
                 return HttpNotFound();

@@ -16,6 +16,10 @@ namespace TrashCollector.Models
         public int? EmployeeId { get; set; }
         public Employees Employees { get; set; }
 
+        public DateTime? PickUpSuspensionBegins { get; set; }
+
+        public DateTime? PickUpSuspensionEnds { get; set; }
+
         //[ForeignKey("Customers")]
         //public int CustomerId { get; set; }
         //public Customers customer { get; set; }
@@ -26,9 +30,6 @@ namespace TrashCollector.Models
         //[Display(Name = "Pickups End")]
         //public DateTime? DatePickUpsEnd { get; set; }
 
-        //[Display(Name = "Pickup Day")]
-        //public string WeekDay { get; set; }
-
         [Display(Name = "Extra Pickup")]
         public DateTime? ExtraPickUp { get; set; }
 
@@ -38,7 +39,7 @@ namespace TrashCollector.Models
 
         public double Charge { get; set; }
 
-        [Display(Name = "Pickup Start Date")]
-        public DateTime PickUpDate { get; set; }
+        [Display(Name = "Pickup Day")]
+        public DateTime PickUpDay { get; set; }
     }
 }
