@@ -58,7 +58,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.pickups.PickUpDay, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.pickups.PickUpDay, new { htmlAttributes = new { @class = "form-control" } })
+            @*@Html.EditorFor(model => model.pickups.PickUpDay, new { htmlAttributes = new { @class = "form-control" } })*@
             @Html.ValidationMessageFor(model => model.pickups.PickUpDay, "", new { @class = "text-danger" })
             @{ List<SelectListItem> days = new List<SelectListItem>();
                 days.Add(new SelectListItem { Text = "Monday", Value = "1", Selected = true });

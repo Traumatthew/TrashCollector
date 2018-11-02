@@ -94,7 +94,7 @@ namespace TrashCollector.Controllers
                         return RedirectToAction(returnUrl);
                     }
 
-                    return RedirectToLocal(returnUrl);
+                    //return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:

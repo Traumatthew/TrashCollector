@@ -200,6 +200,7 @@
     <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PickupsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -214,6 +215,18 @@
     <Compile Include="Migrations\201811012323572_updated model pickups.cs" />
     <Compile Include="Migrations\201811012323572_updated model pickups.Designer.cs">
       <DependentUpon>201811012323572_updated model pickups.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811020008465_updated model pickups again.cs" />
+    <Compile Include="Migrations\201811020008465_updated model pickups again.Designer.cs">
+      <DependentUpon>201811020008465_updated model pickups again.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811020106186_updated model pickups again again.cs" />
+    <Compile Include="Migrations\201811020106186_updated model pickups again again.Designer.cs">
+      <DependentUpon>201811020106186_updated model pickups again again.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811020121078_updated model pickups again again again.cs" />
+    <Compile Include="Migrations\201811020121078_updated model pickups again again again.Designer.cs">
+      <DependentUpon>201811020121078_updated model pickups again again again.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -300,6 +313,12 @@
     <Content Include="Views\Employees\Details.cshtml" />
     <Content Include="Views\Employees\Delete.cshtml" />
     <Content Include="Views\Employees\Index.cshtml" />
+    <Content Include="Views\Customers\Index.cshtml" />
+    <Content Include="Views\Pickups\Create.cshtml" />
+    <Content Include="Views\Pickups\Delete.cshtml" />
+    <Content Include="Views\Pickups\Details.cshtml" />
+    <Content Include="Views\Pickups\Edit.cshtml" />
+    <Content Include="Views\Pickups\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -326,6 +345,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201811012323572_updated model pickups.resx">
       <DependentUpon>201811012323572_updated model pickups.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811020008465_updated model pickups again.resx">
+      <DependentUpon>201811020008465_updated model pickups again.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811020106186_updated model pickups again again.resx">
+      <DependentUpon>201811020106186_updated model pickups again again.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811020121078_updated model pickups again again again.resx">
+      <DependentUpon>201811020121078_updated model pickups again again again.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

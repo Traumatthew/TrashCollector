@@ -40,24 +40,18 @@ namespace TrashCollector.Controllers
         {
             //var customerDetails = db.Customers.Where(c => c.CustomerId == id).First();
             //return View(customerDetails);
-
-            /*Customers customerDetails = null*/;
-
+            /*Customers customerDetails = null*/
             ViewModel viewModel = new ViewModel();
 
             if(id == null)
             {
-
                 //string currentUserId = User.Identity.GetUserId();
                 //customerDetails = db.Customers.Where(c => c.ApplicationUserId == currentUserId).FirstOrDefault();
                 //return View(customerDetails);
-
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            //Customers customers = db.Customers.Find(id);
-
             viewModel.customers = db.Customers.Find(id);
-            viewModel.address = db.Addresses.Find(viewModel.address.AddressId);
+            viewModel.address = db.Addresses.Find(viewModel.customers.AddressId);
             viewModel.pickups = db.Pickups.Where(p => p.PickUpId == viewModel.customers.PickId).Single();
 
             if(viewModel.customers == null)
@@ -105,15 +99,19 @@ namespace TrashCollector.Controllers
         //=============================================================================================================================
         // POST: Customers/Create
         [HttpPost]
-        public ActionResult Create(ViewModel viewModel)
+        public ActionResult Create(ViewModel viewModel, DateTime? PickUpDay)
         {
             //viewModel.customers.ApplicationUser
             //viewModel.customers.FirstName;
             //viewModel.customers.LastName;
             viewModel.customers.ApplicationUserId = User.Identity.GetUserId();
-                //Pickups pickups = new Pickups();
-                //pickups.ExtraPickUp?
-                //    pickups.PickUpCompleted ?
+            viewModel.pickups = new Pickups();
+            //pickups.ExtraPickUp?
+            //    pickups.PickUpCompleted ?
+            viewModel.pickups.PickUpDay =  PickUpDay;
+            viewModel.pickups.Charge = 50;
+            viewModel.address.AddressId = viewModel.customers.CustomerId;
+            
 
                 db.Customers.Add(viewModel.customers);
                 db.Addresses.Add(viewModel.address);
@@ -121,8 +119,6 @@ namespace TrashCollector.Controllers
                 // get the Id of the currently logged in ApplicationUser
                 //string currentUserId = User.Identity.GetUserId();
                 //viewModel.customers.ApplicationUserId = currentUserId;
-                ////db.Pickups.Add(pickups);
-                //db.Customers.Add(viewModel.customers);
                 db.SaveChanges();
                 return RedirectToAction("Details");
 
@@ -130,32 +126,6 @@ namespace TrashCollector.Controllers
             //return View(viewModel.customers);
 
         }
-        //// POST: Customers/Create
-        //[HttpPost]
-        //public ActionResult Create([Bind(Include = "CustomerId,FirstName,LastName,DatePickUpsStart,DatePickUpsEnd,PickUpDay,ExtraPickUp,PickUpCompleted")] Customers customer)
-        //{
-        //    //viewModel.customers.ApplicationUser
-        //    //viewModel.customers.FirstName;
-        //    //viewModel.customers.LastName;
-        //    //viewModel
-        //    if (ModelState.IsValid)
-        //    {
-        //        //Pickups pickups = new Pickups();
-        //        //pickups.ExtraPickUp?
-        //        //    pickups.PickUpCompleted ?
-        //        // get the Id of the currently logged in ApplicationUser
-        //        string currentUserId = User.Identity.GetUserId();
-        //        customer.ApplicationUserId = currentUserId;
-        //        //db.Pickups.Add(pickups);
-        //        db.Customers.Add(customer);
-        //        db.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
-
-        //    ViewBag.ApplicationUserId = new SelectList(db.Users, "CustomerId", "ApplicationUserId", customer.ApplicationUserId);
-        //    return View(customer);
-            
-        //}
 
         //=============================================================================================================================
 
@@ -168,11 +138,15 @@ namespace TrashCollector.Controllers
             //viewModel.pickups.PickUpDate = 
             var currentUserId = User.Identity.GetUserId();
 
-            //Customers customers = db.Customers.Find(id);
+            //viewModel.customers = db.Customers.Find(id);
             viewModel.customers = db.Customers.Where(c => c.ApplicationUserId == currentUserId).SingleOrDefault();
+            //db.Addresses.Where(a => a.AddressId == viewModel.address.CustomerId).Single();
+            //viewModel.address = db.Addresses.Find(viewModel.customers.AddressId);
+            //viewModel.pickups = db.Pickups.Find(viewModel.customers.PickId);
+
             //viewModel.address = db.Addresses.Find(viewModel.customers.Address);
             //Need To Check
-            ViewBag.CustomerId = new SelectList(db.Users, "CustomerId", "ApplicationUserRoleId", viewModel.customers.CustomerId);
+            //ViewBag.CustomerId = new SelectList(db.Users, "CustomerId", "ApplicationUserRoleId", viewModel.customers.CustomerId);
             return View(viewModel);
         }
 
@@ -189,7 +163,9 @@ namespace TrashCollector.Controllers
                 var editPickUps = db.Pickups.Where(p => p.PickUpId == viewModel.customers.PickId).Single();
                 editCustomer.FirstName = viewModel.customers.FirstName;
                 editCustomer.LastName = viewModel.customers.LastName;
-                editCustomer.Address = viewModel.customers.Address;
+                editAddress.StreetAddress = viewModel.address.StreetAddress;
+                editAddress.ZipCode = viewModel.address.ZipCode;
+                editPickUps.PickUpDay = viewModel.pickups.PickUpDay;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -239,7 +215,7 @@ namespace TrashCollector.Controllers
             Customers customers = db.Customers.Find(id);
             db.Customers.Remove(customers);
             db.SaveChanges();
-            return RedirectToAction("Details");
+            return RedirectToAction("Index");
         }
 
         //=============================================================================================================================

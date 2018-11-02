@@ -40,6 +40,8 @@ namespace TrashCollector.Models
         public double Charge { get; set; }
 
         [Display(Name = "Pickup Day")]
-        public DateTime PickUpDay { get; set; }
+        public DateTime? PickUpDay { get; set; }
+
+        public int ZipCode { get; set; }
     }
 }

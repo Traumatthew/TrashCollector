@@ -1,0 +1,75 @@
+﻿@model IEnumerable<TrashCollector.Models.Pickups>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        @*<th>
+            @Html.DisplayNameFor(model => model.Employees.ApplicationUserId)
+        </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.PickUpSuspensionBegins)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PickUpSuspensionEnds)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExtraPickUp)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PickUpCompleted)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Charge)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PickUpDay)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ZipCode)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Employees.ApplicationUserId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PickUpSuspensionBegins)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PickUpSuspensionEnds)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ExtraPickUp)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PickUpCompleted)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Charge)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PickUpDay)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ZipCode)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.PickUpId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.PickUpId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.PickUpId })
+        </td>
+    </tr>
+}
+
+</table>

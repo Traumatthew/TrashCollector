@@ -17,12 +17,12 @@ namespace TrashCollector.Controllers
         // GET: Employees
         public ActionResult Index()
         {
-            string currentUserId = User.Identity.GetUserId();
-            var employee = db.Employees.Where(c => c.ApplicationUserId == currentUserId).First();
+            //string currentUserId = User.Identity.GetUserId();
+            //var employee = db.Employees.Where(c => c.ApplicationUserId == currentUserId).First();
 
            // var ListOfCustomers = db.Customers.Where(x => x.Address.ZipCode == employee.ZipCode && (x.PickUpDay == DateTime || x.ExtraPickUp == DateTime).ToList());
 
-            return View();
+            return View(db.Employees.ToList());
         }
 
         //=============================================================================================================================
@@ -90,7 +90,7 @@ namespace TrashCollector.Controllers
                 return HttpNotFound();
             }
             //Need To Check
-            ViewBag.ApplicationUserId = new SelectList(db.Users, "Employe]eId", "ApplicationUseerId", employees.ApplicationUserId);
+            //ViewBag.ApplicationUserId = new SelectList(db.Users, "EmployeeId", "ApplicationUseerId", employees.ApplicationUserId);
             return View(employees);
         }
 
@@ -98,13 +98,13 @@ namespace TrashCollector.Controllers
 
         // POST: Employees/Edit/5
         [HttpPost]
-        public ActionResult Edit([Bind(Include = "EmployeeId,ApplicationRoleIdFirstName,LastName,ZipCode")] Employees employees)
+        public ActionResult Edit([Bind(Include = "EmployeeId,FirstName,LastName,ZipCode")] Employees employees)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(employees).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Details");
+                return RedirectToAction("Index");
             }
             ViewBag.ApplicationUserId = new SelectList(db.Users, "EmployeeId", "ApplicationUserId", employees.ApplicationUserId);
             return View(employees);
